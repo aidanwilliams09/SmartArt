@@ -1,0 +1,56 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+        }
+        resources.srcDir file('src/main/resources')
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'junit:junit:4.12'
+
+	testImplementation "junit:junit:4.13"
+	testImplementation 'org.mockito:mockito-core:2.+'
+	testImplementation 'org.mockito:mockito-junit-jupiter:2.18.3'
+	testImplementation 'org.junit.platform:junit-platform-launcher:1.4.1'
+	integrationTestCompile "org.springframework.boot:spring-boot-starter-test"
+
+	runtimeOnly 'org.postgresql:postgresql'
+	compile("org.postgresql:postgresql")
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+	outputs.upToDateWhen { false }
+}
+
+test {
+	useJUnitPlatform()
+}

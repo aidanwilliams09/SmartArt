@@ -1,0 +1,27 @@
+matrix:
+  include:
+        #Frontend 
+    - language: node_js
+      node_js:
+        - "6"
+      before_install:
+        - cd SmartArt-Frontend
+        - npm install
+      script:
+      - npm run build
+      deploy:
+       provider: heroku
+       api_key: 9e5826fa-9d43-425e-82af-cf484a7a023c
+       app:
+          master: smartart-frontend-000
+          
+          
+      #Backend      
+    - language: java
+      script:
+      - ./gradlew build
+      deploy:
+        provider: heroku
+        api_key: 9e5826fa-9d43-425e-82af-cf484a7a023c
+        app:
+          master: smartart-backend-000

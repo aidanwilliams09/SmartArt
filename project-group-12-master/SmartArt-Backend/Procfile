@@ -1,0 +1,2 @@
+web: java -jar SmartArt-Backend/build/libs/SmartArt-Backend-0.0.1-SNAPSHOT.jar
+
